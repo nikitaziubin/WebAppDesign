@@ -1,5 +1,6 @@
 package com.example.WebApplicationDesign.controllers;
 
+import com.example.WebApplicationDesign.models.FilmsRatings;
 import com.example.WebApplicationDesign.models.Users;
 import com.example.WebApplicationDesign.services.UsersService;
 import lombok.AllArgsConstructor;
@@ -45,5 +46,10 @@ public class UsersController {
     public ResponseEntity<Users> deleteUser(@PathVariable int id){
         usersService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/films-ratings")
+    public ResponseEntity<List<FilmsRatings>> getFilmsRatingsByUser(@PathVariable int id){
+        return ResponseEntity.ok(usersService.getFilmsRatingsByUser(id));
     }
 }

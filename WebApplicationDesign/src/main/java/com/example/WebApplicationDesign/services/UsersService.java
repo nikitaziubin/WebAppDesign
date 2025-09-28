@@ -1,6 +1,8 @@
 package com.example.WebApplicationDesign.services;
 
+import com.example.WebApplicationDesign.models.FilmsRatings;
 import com.example.WebApplicationDesign.models.Users;
+import com.example.WebApplicationDesign.repositories.FilmsRatingsRepository;
 import com.example.WebApplicationDesign.repositories.UsersRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.List;
 public class UsersService {
 
     private final UsersRepository usersRepository;
+    private final FilmsRatingsRepository filmsRatingsRepository;
     private final PasswordEncoder passwordEncoder;
 
     public List<Users> getUsers() {
@@ -41,6 +44,7 @@ public class UsersService {
         usersToUpdate.setName(user.getName());
         usersToUpdate.setEmail(user.getEmail());
         usersToUpdate.setPassword(user.getPassword());
+        usersToUpdate.setPhoneNumber(user.getPhoneNumber());
         return usersRepository.save(usersToUpdate);
     }
 
@@ -49,5 +53,9 @@ public class UsersService {
             throw new EntityNotFoundException("User not found by id: " + id);
         }
         usersRepository.deleteById(id);
+    }
+
+    public List<FilmsRatings> getFilmsRatingsByUser(int id) {
+        return filmsRatingsRepository.findAllByUserId(id);
     }
 }
