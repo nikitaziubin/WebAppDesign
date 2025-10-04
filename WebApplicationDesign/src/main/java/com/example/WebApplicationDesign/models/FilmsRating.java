@@ -1,26 +1,26 @@
 package com.example.WebApplicationDesign.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "FilmsRatings")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class FilmsRatings {
+public class FilmsRating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "date_of_publish", nullable = false)
+    @CreationTimestamp
     private Date dateOfPublish = new Date();
 
     @Column(nullable = false)
@@ -35,5 +35,5 @@ public class FilmsRatings {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"filmsRatings", "password", "hibernateLazyInitializer", "handler"})
-    private Users user;
+    private User user;
 }

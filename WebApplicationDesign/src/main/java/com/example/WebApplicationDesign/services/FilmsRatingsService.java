@@ -1,7 +1,7 @@
 package com.example.WebApplicationDesign.services;
 
-import com.example.WebApplicationDesign.models.FilmsRatings;
-import com.example.WebApplicationDesign.models.Users;
+import com.example.WebApplicationDesign.models.FilmsRating;
+import com.example.WebApplicationDesign.models.User;
 import com.example.WebApplicationDesign.repositories.FilmsRatingsRepository;
 import com.example.WebApplicationDesign.repositories.UsersRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,23 +18,23 @@ public class FilmsRatingsService {
     private final UsersService usersService;
     private FilmsRatingsRepository filmsRatingsRepository;
 
-    public List<FilmsRatings> getFilmsRatings() {
+    public List<FilmsRating> getFilmsRatings() {
         return filmsRatingsRepository.findAll();
     }
-    public FilmsRatings getFilmsRatingById(int id) {
+    public FilmsRating getFilmsRatingById(int id) {
         return filmsRatingsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("FilmsRating not found"));
     }
-    public FilmsRatings createFilmsRating(FilmsRatings filmsRating) {
-        Users user = usersService.getUserById(filmsRating.getUserId());
+    public FilmsRating createFilmsRating(FilmsRating filmsRating) {
+        User user = usersService.getUserById(filmsRating.getUserId());
         filmsRating.setUser(user);
         if(filmsRating.getDateOfPublish() == null) {
             filmsRating.setDateOfPublish(new Date());
         }
         return filmsRatingsRepository.save(filmsRating);
     }
-    public FilmsRatings updateFilmsRating(int id, FilmsRatings newFilmsRating) {
-        FilmsRatings frToUpdate = getFilmsRatingById(id);
+    public FilmsRating updateFilmsRating(int id, FilmsRating newFilmsRating) {
+        FilmsRating frToUpdate = getFilmsRatingById(id);
         frToUpdate.setRating(newFilmsRating.getRating());
         frToUpdate.setFilmId(newFilmsRating.getFilmId());
         if(newFilmsRating.getUser() != null) {

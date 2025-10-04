@@ -1,12 +1,12 @@
 package com.example.WebApplicationDesign.services;
 
-import com.example.WebApplicationDesign.models.FilmsRatings;
-import com.example.WebApplicationDesign.models.Users;
+import com.example.WebApplicationDesign.models.FilmsRating;
+import com.example.WebApplicationDesign.models.Projections;
+import com.example.WebApplicationDesign.models.User;
 import com.example.WebApplicationDesign.repositories.FilmsRatingsRepository;
 import com.example.WebApplicationDesign.repositories.UsersRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +20,20 @@ public class UsersService {
     private final FilmsRatingsRepository filmsRatingsRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public List<Users> getUsers() {
+    public List<User> getUsers() {
         return usersRepository.findAll();
     }
 
-    public Users getUserById(int id) {
+    public List<Projections.UsersDTO> getUsersNamesOnly() {
+        return usersRepository.findAllByIdBetween(0, 10);
+    }
+
+    public User getUserById(int id) {
         return usersRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found by id: " + id));
     }
 
-    public Users createUser(Users user) {
+    public User createUser(User user) {
         String email = user.getEmail().trim().toLowerCase();
         if(usersRepository.existsByEmailIgnoreCase(email)) {
             throw new RuntimeException("Email already exists");
@@ -38,14 +42,14 @@ public class UsersService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return usersRepository.save(user);
     }
-    public Users updateUser(int id, Users user) {
-        Users usersToUpdate = usersRepository.findById(id)
+    public User updateUser(int id, User user) {
+        User userToUpdate = usersRepository.findById(id)
                         .orElseThrow(() -> new RuntimeException("User not found by id: " + id));
-        usersToUpdate.setName(user.getName());
-        usersToUpdate.setEmail(user.getEmail());
-        usersToUpdate.setPassword(user.getPassword());
-        usersToUpdate.setPhoneNumber(user.getPhoneNumber());
-        return usersRepository.save(usersToUpdate);
+        userToUpdate.setName(user.getName());
+        userToUpdate.setEmail(user.getEmail());
+        userToUpdate.setPassword(user.getPassword());
+        userToUpdate.setPhoneNumber(user.getPhoneNumber());
+        return usersRepository.save(userToUpdate);
     }
 
     public void deleteUser(int id) {
@@ -55,7 +59,7 @@ public class UsersService {
         usersRepository.deleteById(id);
     }
 
-    public List<FilmsRatings> getFilmsRatingsByUser(int id) {
+    public List<FilmsRating> getFilmsRatingsByUser(int id) {
         return filmsRatingsRepository.findAllByUserId(id);
     }
 }
