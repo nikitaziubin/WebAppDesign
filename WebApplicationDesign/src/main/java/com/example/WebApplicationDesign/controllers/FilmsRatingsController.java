@@ -4,6 +4,7 @@ import com.example.WebApplicationDesign.models.FilmsRating;
 import com.example.WebApplicationDesign.services.FilmsRatingsService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

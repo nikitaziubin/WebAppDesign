@@ -1,10 +1,11 @@
 package com.example.WebApplicationDesign.services;
 
+import com.example.WebApplicationDesign.exceptionHandler.NotFoundException;
 import com.example.WebApplicationDesign.models.FilmsRating;
 import com.example.WebApplicationDesign.models.User;
 import com.example.WebApplicationDesign.repositories.FilmsRatingsRepository;
-import com.example.WebApplicationDesign.repositories.UsersRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class FilmsRatingsService {
-    private final UsersRepository usersRepository;
     private final UsersService usersService;
     private FilmsRatingsRepository filmsRatingsRepository;
 
@@ -23,9 +23,9 @@ public class FilmsRatingsService {
     }
     public FilmsRating getFilmsRatingById(int id) {
         return filmsRatingsRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("FilmsRating not found"));
+                .orElseThrow(() -> new NotFoundException("FilmsRating not found"));
     }
-    public FilmsRating createFilmsRating(FilmsRating filmsRating) {
+    public FilmsRating createFilmsRating(@Valid FilmsRating filmsRating) {
         User user = usersService.getUserById(filmsRating.getUserId());
         filmsRating.setUser(user);
         if(filmsRating.getDateOfPublish() == null) {
@@ -44,7 +44,7 @@ public class FilmsRatingsService {
     }
     public void deleteFilmsRating(int id) {
         if(!filmsRatingsRepository.existsById(id)) {
-            throw new EntityNotFoundException("FilmsRating not found by id: " + id);
+            throw new NotFoundException("FilmsRating not found by id: " + id);
         }
         filmsRatingsRepository.deleteById(id);
     }

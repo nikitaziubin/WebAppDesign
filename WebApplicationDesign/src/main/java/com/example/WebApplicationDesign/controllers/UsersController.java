@@ -52,9 +52,4 @@ public class UsersController {
         usersService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/{id}/films-ratings")
-    public ResponseEntity<List<FilmsRating>> getFilmsRatingsByUser(@PathVariable int id){
-        return ResponseEntity.ok(usersService.getFilmsRatingsByUser(id));
-    }
 }

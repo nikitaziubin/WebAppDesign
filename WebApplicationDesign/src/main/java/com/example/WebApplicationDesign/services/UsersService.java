@@ -1,5 +1,7 @@
 package com.example.WebApplicationDesign.services;
 
+import com.example.WebApplicationDesign.exceptionHandler.EmailAlreadyExistException;
+import com.example.WebApplicationDesign.exceptionHandler.NotFoundException;
 import com.example.WebApplicationDesign.models.FilmsRating;
 import com.example.WebApplicationDesign.models.Projections;
 import com.example.WebApplicationDesign.models.User;
@@ -30,21 +32,20 @@ public class UsersService {
 
     public User getUserById(int id) {
         return usersRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found by id: " + id));
+                .orElseThrow(() -> new NotFoundException("User not found by id: " + id));
     }
 
     public User createUser(User user) {
         String email = user.getEmail().trim().toLowerCase();
         if(usersRepository.existsByEmailIgnoreCase(email)) {
-            throw new RuntimeException("Email already exists");
+            throw new EmailAlreadyExistException("Email already exists: " + email);
         }
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return usersRepository.save(user);
     }
     public User updateUser(int id, User user) {
-        User userToUpdate = usersRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("User not found by id: " + id));
+        User userToUpdate = getUserById(id);
         userToUpdate.setName(user.getName());
         userToUpdate.setEmail(user.getEmail());
         userToUpdate.setPassword(user.getPassword());
@@ -54,7 +55,7 @@ public class UsersService {
 
     public void deleteUser(int id) {
         if(!usersRepository.existsById(id)) {
-            throw new EntityNotFoundException("User not found by id: " + id);
+            throw new NotFoundException("User not found by id: " + id);
         }
         usersRepository.deleteById(id);
     }
