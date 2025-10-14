@@ -5,6 +5,7 @@ import com.example.WebApplicationDesign.models.Projections;
 import com.example.WebApplicationDesign.models.User;
 import com.example.WebApplicationDesign.services.UsersService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
@@ -35,7 +36,7 @@ public class UsersController {
         return ResponseEntity.ok(usersService.getUserById(id));
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> addUser(@RequestBody @Valid User user){
         User createdUser = usersService.createUser(user);
         return ResponseEntity

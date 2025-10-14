@@ -11,7 +11,7 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "FilmsRatings")
 @NoArgsConstructor
@@ -37,6 +37,6 @@ public class FilmsRating {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference
+    @JsonIgnoreProperties({"filmsRatings", "password", "hibernateLazyInitializer", "handler"})
     private User user;
 }

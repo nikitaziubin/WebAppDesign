@@ -1,6 +1,7 @@
 package com.example.WebApplicationDesign.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -40,7 +41,6 @@ public class User {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnoreProperties({"user", "hibernateLazyInitializer", "handler"})
     private List<FilmsRating> filmsRatings = new ArrayList<>();
-
 }

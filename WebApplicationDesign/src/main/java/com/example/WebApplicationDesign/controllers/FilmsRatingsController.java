@@ -26,7 +26,7 @@ public class FilmsRatingsController {
     public ResponseEntity<FilmsRating> getFilmsRatingsById(@PathVariable int id) {
         return ResponseEntity.ok(filmsRatingsService.getFilmsRatingById(id));
     }
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FilmsRating> addFilmsRatings(@RequestBody @Valid FilmsRating filmsRating) {
         FilmsRating createdFR = filmsRatingsService.createFilmsRating(filmsRating);
         return ResponseEntity
