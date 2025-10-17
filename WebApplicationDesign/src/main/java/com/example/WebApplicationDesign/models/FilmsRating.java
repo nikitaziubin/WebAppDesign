@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "FilmsRatings")
 @NoArgsConstructor
@@ -20,23 +20,22 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class FilmsRating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "date_of_publish", nullable = false)
     @CreationTimestamp
     private Date dateOfPublish = new Date();
 
     @Column(nullable = false)
-    private int rating;
+    @NotNull private int rating;
 
-    @Column(name = "film_id", nullable = false)
-    private int filmId;
-
-    @Column(name = "user_id", insertable = false, updatable = false)
-    private int userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "film_id", nullable = false)
+    @JsonIgnoreProperties({"filmsRatings", "hibernateLazyInitializer", "handler"})
+    @NotNull private Film film;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnoreProperties({"filmsRatings", "password", "hibernateLazyInitializer", "handler"})
-    private User user;
+    @NotNull private User user;
 }

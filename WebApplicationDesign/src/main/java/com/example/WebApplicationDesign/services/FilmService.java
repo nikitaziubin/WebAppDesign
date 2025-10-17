@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class FilmsService {
+public class FilmService {
     private final FilmsRepository filmsRepository;
 
     public List<Film> getAllFilms() {
@@ -35,12 +35,10 @@ public class FilmsService {
         filmToUpdate.setDuration(film.getDuration());
         filmToUpdate.setPreviewPhoto(film.getPreviewPhoto());
         filmToUpdate.setAgeLimit(film.getAgeLimit());
-        filmToUpdate.setDateOfPublish(film.getDateOfPublish());
+        filmToUpdate.setDateOfPublish(
+                film.getDateOfPublish() == null ? new Date() : film.getDateOfPublish());
         filmToUpdate.setBudget(film.getBudget());
         filmToUpdate.setLanguage(film.getLanguage());
-        filmToUpdate.setSeriesId(film.getSeriesId());
-        filmToUpdate.setCountryOfProductionId(film.getCountryOfProductionId());
-        filmToUpdate.setGenreId(film.getGenreId());
         return filmsRepository.save(filmToUpdate);
     }
     public void deleteFilm(int id) {
