@@ -9,10 +9,18 @@ import com.example.WebApplicationDesign.repositories.FilmsRatingsRepository;
 import com.example.WebApplicationDesign.repositories.UsersRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.SecureDirectoryStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -30,9 +38,46 @@ public class UsersService {
         return usersRepository.findAllByIdBetween(0, 10);
     }
 
-    public User getUserById(int id) {
+    public List<Object> getUserList(List<Integer> ids){
+        List <Object> results = new ArrayList<>();
+        for(Integer id : ids){
+            try {
+                results.add(getUserById(id));
+            } catch (NotFoundException e) {
+                results.add(Map.of(
+                        "status", "NOT_FOUND",
+                        "requestedId", id,
+                        "message", e.getMessage()
+                ));
+            }
+        }
+        return results;
+    }
+
+    private User findById(int id){
         return usersRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found by id: " + id));
+    }
+    public User getUserById(int id) {
+        User userToView = findById(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<String> roles = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+        String loggedInUserEmail = authentication.getName();
+        if(roles.contains("ADMIN") || loggedInUserEmail.equals(userToView.getEmail())) {
+            return userToView;
+        }
+        else{
+            throw new AccessDeniedException("You do not have permission to access this resource.");
+        }
+    }
+    public User getUserByEmail(String email) {
+        User user = usersRepository.findByEmail(email);
+        if (user == null) {
+            throw new NotFoundException("User not found by email: " + email);
+        }
+        return user;
     }
 
     public User createUser(User user) {
@@ -40,6 +85,7 @@ public class UsersService {
         if(usersRepository.existsByEmailIgnoreCase(email)) {
             throw new EmailAlreadyExistException("Email already exists: " + email);
         }
+        user.setRole(User.USER_ROLES.LOGGED_IN);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return usersRepository.save(user);
@@ -48,8 +94,9 @@ public class UsersService {
         User userToUpdate = getUserById(id);
         userToUpdate.setName(user.getName());
         userToUpdate.setEmail(user.getEmail());
-        userToUpdate.setPassword(user.getPassword());
+        userToUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
         userToUpdate.setPhoneNumber(user.getPhoneNumber());
+        userToUpdate.setRole(user.getRole());
         return usersRepository.save(userToUpdate);
     }
 

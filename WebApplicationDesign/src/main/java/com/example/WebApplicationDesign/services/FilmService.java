@@ -1,8 +1,12 @@
 package com.example.WebApplicationDesign.services;
 
+import com.example.WebApplicationDesign.exceptionHandler.NoIdProvidedException;
 import com.example.WebApplicationDesign.exceptionHandler.NotFoundException;
 import com.example.WebApplicationDesign.models.Film;
+import com.example.WebApplicationDesign.models.Series;
 import com.example.WebApplicationDesign.repositories.FilmsRepository;
+import com.example.WebApplicationDesign.repositories.SeriesRepository;
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +16,13 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class FilmService {
+    EntityManager entityManager;
     private final FilmsRepository filmsRepository;
+    private final SeriesService seriesService;
 
     public List<Film> getAllFilms() {
-        return filmsRepository.findAll();
+        //return filmsRepository.findAll();
+        return filmsRepository.findFilmsBySeriesIsNull();
     }
 
     public Film getFilmById(int id) {
@@ -25,6 +32,13 @@ public class FilmService {
     public Film createFilm(Film film) {
         if(film.getDateOfPublish() == null) {
             film.setDateOfPublish(new Date());
+        }
+        if (film.getSeries() != null && film.getSeries().getId() != null) {
+            Series series = seriesService.getSeriesById(film.getSeries().getId());
+            film.setSeries(series);
+        }
+        else {
+            film.setSeries(null);
         }
         return filmsRepository.save(film);
     }
@@ -39,6 +53,15 @@ public class FilmService {
                 film.getDateOfPublish() == null ? new Date() : film.getDateOfPublish());
         filmToUpdate.setBudget(film.getBudget());
         filmToUpdate.setLanguage(film.getLanguage());
+
+        if(film.getSeries() != null && film.getSeries().getId() != null){
+            seriesService.getSeriesById(film.getSeries().getId());
+            Series series = entityManager.getReference(Series.class, film.getSeries().getId());
+            filmToUpdate.setSeries(series);
+        }
+        else{
+            filmToUpdate.setSeries(null);
+        }
         return filmsRepository.save(filmToUpdate);
     }
     public void deleteFilm(int id) {
@@ -48,3 +71,5 @@ public class FilmService {
         filmsRepository.deleteById(id);
     }
 }
+
+

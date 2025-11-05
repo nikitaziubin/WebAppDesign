@@ -15,6 +15,8 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @Entity
 @Table(
         name = "Users",
@@ -24,6 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class User {
+    public enum USER_ROLES{ LOGGED_IN, ADMIN };
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -40,6 +43,10 @@ public class User {
 
     @Column(nullable = false, unique = true)
     @Email private String email;
+
+    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    private USER_ROLES role;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

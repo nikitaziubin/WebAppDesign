@@ -41,6 +41,11 @@ public class Film {
     @Column(nullable = false)
     @NotBlank private String language;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "series_id", nullable = true)
+    @JsonIgnoreProperties({"films", "hibernateLazyInitializer", "handler"})
+    Series series;
+
     @OneToMany(mappedBy = "film", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"film", "hibernateLazyInitializer", "handler"})
     private List<FilmsRating> filmsRatings = new ArrayList<>();
