@@ -7,7 +7,6 @@ import com.example.WebApplicationDesign.models.Projections;
 import com.example.WebApplicationDesign.models.User;
 import com.example.WebApplicationDesign.repositories.FilmsRatingsRepository;
 import com.example.WebApplicationDesign.repositories.UsersRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -16,11 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.SecureDirectoryStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor

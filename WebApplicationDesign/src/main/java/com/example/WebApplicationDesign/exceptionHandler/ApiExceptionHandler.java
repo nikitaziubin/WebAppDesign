@@ -89,4 +89,12 @@ public class ApiExceptionHandler {
                 "message", ex.getMessage()
         ));
     }
+    @ExceptionHandler(RefreshTokenException.class)
+    public ResponseEntity<Map<String,Object>> handleRefreshTokenException(RefreshTokenException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
+                "status", 401,
+                "error", "Unauthorized",
+                "message", ex.getMessage()
+        ));
+    }
 }

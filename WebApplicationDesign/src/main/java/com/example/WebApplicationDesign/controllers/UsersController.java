@@ -15,10 +15,7 @@ import jakarta.validation.Valid;
 
 
 import java.net.URI;
-import java.nio.file.AccessDeniedException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -39,40 +36,25 @@ public class UsersController {
         return ResponseEntity.ok(usersService.getUsersNamesOnly());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable int id){
-        return ResponseEntity.ok(usersService.getUserById(id));
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<User> getUser(@PathVariable int id){
+//        return ResponseEntity.ok(usersService.getUserById(id));
+//    }
 
-    @GetMapping("/list/{ids}")
-    public ResponseEntity< List<Object>> getUser(@PathVariable List<Integer> ids){
+    @GetMapping("/{ids}")
+    public ResponseEntity<List<Object>> getUser(@PathVariable List<Integer> ids){
         return ResponseEntity.ok(usersService.getUserList(ids));
     }
 
-    @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> register(@RequestBody @Valid User user){
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> createUser(@RequestBody @Valid User user){
         User createdUser = usersService.createUser(user);
         return ResponseEntity
                 .created(URI.create("/api/users/" + createdUser.getId()))
                 .body(createdUser);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid User user){
-        try{
-            User userToLogin = usersService.getUserByEmail(user.getEmail());
-            if (passwordEncoder.matches(user.getPassword(), userToLogin.getPassword())) {
-                String role = userToLogin.getRole().toString();
-                String token = jwtUtil.generateToken(user.getEmail(), role);
-                return ResponseEntity.ok(token);
-            }
-            else {
-                throw new InvalidUsernameOrPasswordException("Invalid email or password");
-            }
-        }catch (NotFoundException e){
-            throw new InvalidUsernameOrPasswordException("Invalid email or password");
-        }
-    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@RequestBody @Valid User user, @PathVariable int id){

@@ -1,11 +1,9 @@
 package com.example.WebApplicationDesign.services;
 
-import com.example.WebApplicationDesign.exceptionHandler.NoIdProvidedException;
 import com.example.WebApplicationDesign.exceptionHandler.NotFoundException;
 import com.example.WebApplicationDesign.models.Film;
 import com.example.WebApplicationDesign.models.Series;
 import com.example.WebApplicationDesign.repositories.FilmsRepository;
-import com.example.WebApplicationDesign.repositories.SeriesRepository;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

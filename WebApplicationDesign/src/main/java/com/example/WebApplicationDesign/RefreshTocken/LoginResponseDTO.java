@@ -1,4 +1,4 @@
 package com.example.WebApplicationDesign.RefreshTocken;
 
-public record LoginResponse(String refreshToken, String accessToken) {
+public record LoginResponseDTO(String refreshToken, String accessToken) {
 }

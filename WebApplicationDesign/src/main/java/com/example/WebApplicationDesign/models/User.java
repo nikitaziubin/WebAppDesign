@@ -1,8 +1,8 @@
 package com.example.WebApplicationDesign.models;
 
+import com.example.WebApplicationDesign.RefreshTocken.RefreshToken;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -26,7 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class User {
-    public enum USER_ROLES{ LOGGED_IN, ADMIN };
+    public enum USER_ROLES{ LOGGED_IN, ADMIN }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -49,7 +49,12 @@ public class User {
     private USER_ROLES role;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"user", "hibernateLazyInitializer", "handler"})
     private List<FilmsRating> filmsRatings = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<RefreshToken> refreshTokens = new ArrayList<>();
 }

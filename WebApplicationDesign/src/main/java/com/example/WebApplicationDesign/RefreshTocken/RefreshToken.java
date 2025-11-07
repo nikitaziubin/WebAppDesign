@@ -1,11 +1,13 @@
-package com.example.WebApplicationDesign;
+package com.example.WebApplicationDesign.RefreshTocken;
 
 import com.example.WebApplicationDesign.models.User;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.Instant;
 
 @Entity
+@Data
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
