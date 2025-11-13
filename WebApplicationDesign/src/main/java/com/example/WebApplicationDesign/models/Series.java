@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +33,7 @@ public class Series {
     @Column(nullable = false)
     @NotNull private Integer numberOfEpisodes;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "series", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"series", "hibernateLazyInitializer", "handler"})
     private List<Film> films = new ArrayList<>();

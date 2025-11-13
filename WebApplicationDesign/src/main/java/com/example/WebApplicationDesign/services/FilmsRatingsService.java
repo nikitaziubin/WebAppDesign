@@ -30,7 +30,7 @@ public class FilmsRatingsService {
     }
     public FilmsRating getFilmsRatingById(int id) {
         return filmsRatingsRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("FilmsRating not found"));
+                .orElseThrow(() -> new NotFoundException("FilmsRating not found by id: " + id));
     }
     public FilmsRating createFilmsRating(@Valid FilmsRating filmsRating) {
         int userId = filmsRating.getUser().getId();
@@ -70,5 +70,11 @@ public class FilmsRatingsService {
             throw new NotFoundException("FilmsRating not found by id: " + id);
         }
         filmsRatingsRepository.deleteById(id);
+    }
+    public List<FilmsRating> getFilmsRatingsByFilm(int filmId) {
+        return filmsRatingsRepository.findAllByFilmId(filmId);
+    }
+    public FilmsRating getFilmsRatingForFilm(int filmsRatingId) {
+        return getFilmsRatingById(filmsRatingId);
     }
 }

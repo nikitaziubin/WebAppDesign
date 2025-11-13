@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/series")
+@RequestMapping(path ="/api/series")
 @AllArgsConstructor
 public class SeriesController {
     SeriesService seriesService;

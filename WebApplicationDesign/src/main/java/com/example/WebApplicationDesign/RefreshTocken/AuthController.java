@@ -38,7 +38,7 @@ public class AuthController {
             User userToLogin = usersService.getUserByEmail(user.getEmail());
             if (passwordEncoder.matches(user.getPassword(), userToLogin.getPassword())) {
                 String role = userToLogin.getRole().toString();
-                String accessToken = jwtUtil.generateAccessToken(user.getEmail(), role);
+                String accessToken = jwtUtil.generateAccessToken(userToLogin.getId(), role);
                 String refreshToken = tokenService.createRefreshToken(userToLogin);
                 return ResponseEntity.ok(new LoginResponseDTO(refreshToken, accessToken));
             }

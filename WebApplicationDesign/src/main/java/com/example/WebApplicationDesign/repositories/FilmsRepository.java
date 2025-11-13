@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface FilmsRepository extends ListCrudRepository<Film, Integer> {
     public List<Film> findFilmsBySeriesIsNull();
+    public List<Film> findFilmsBySeriesId(int seriesId);
 }

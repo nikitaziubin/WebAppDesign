@@ -61,8 +61,8 @@ public class UsersService {
         List<String> roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
-        String loggedInUserEmail = authentication.getName();
-        if(roles.contains("ADMIN") || loggedInUserEmail.equals(userToView.getEmail())) {
+        String loggedInUserId = authentication.getName();
+        if(roles.contains("ADMIN") || loggedInUserId.equals(userToView.getId().toString())) {
             return userToView;
         }
         else{

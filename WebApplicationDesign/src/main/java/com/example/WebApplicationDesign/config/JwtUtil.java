@@ -18,18 +18,18 @@ public class JwtUtil {
     @Value("${com.example.design.config.jwt.refresh-expiration}")
     private long expirationRefreshToken;
 
-    public String generateAccessToken(String email, String role) {
+    public String generateAccessToken(Integer id, String role) {
         return Jwts.builder()
-                .subject(email)
+                .subject(id.toString())
                 .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationAccessToken))
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
-    public String generateRefreshToken(String email) {
+    public String generateRefreshToken(Integer id) {
         return Jwts.builder()
-                .subject(email)
+                .subject(id.toString())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationRefreshToken))
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))

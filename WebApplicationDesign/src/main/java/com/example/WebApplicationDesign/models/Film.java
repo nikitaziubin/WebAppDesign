@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +47,7 @@ public class Film {
     @JsonIgnoreProperties({"films", "hibernateLazyInitializer", "handler"})
     Series series;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "film", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"film", "hibernateLazyInitializer", "handler"})
     private List<FilmsRating> filmsRatings = new ArrayList<>();

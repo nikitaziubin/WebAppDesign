@@ -22,7 +22,7 @@ public class TokenService {
     }
 
     public String createRefreshToken(User user) {
-        String NewToken = jwtUtil.generateRefreshToken(user.getEmail());
+        String NewToken = jwtUtil.generateRefreshToken(user.getId());
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setToken(NewToken);
         refreshToken.setUser(user);
@@ -36,7 +36,7 @@ public class TokenService {
             Instant expires = refreshTokenObj.get().getExpires();
             if(Instant.now().isBefore(expires)){
                 User user = refreshTokenObj.get().getUser();
-                String newAccessToken = jwtUtil.generateAccessToken(user.getEmail(), user.getRole().toString());
+                String newAccessToken = jwtUtil.generateAccessToken(user.getId(), user.getRole().toString());
                 String newRefreshToken = createRefreshToken(user);
                 refreshTokenRepository.deleteById(refreshTokenObj.get().getId());
                 return new LoginResponseDTO(newRefreshToken, newAccessToken);

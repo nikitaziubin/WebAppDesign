@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface FilmsRatingsRepository extends ListCrudRepository<FilmsRating, Integer> {
     List<FilmsRating> findAllByUserId(int userId);
+    List<FilmsRating> findAllByFilmId(int filmId);
 
 }

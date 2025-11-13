@@ -33,6 +33,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/films/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/films/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/films/**").hasAnyAuthority("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/api/films-ratings/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/films-ratings/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+                        .requestMatchers(HttpMethod.PUT, "/api/films-ratings/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/films-ratings/**").hasAnyAuthority("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/api/series/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/series/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+                        .requestMatchers(HttpMethod.PUT, "/api/series/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/series/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/series/{seriesId}/films/{filmId}/films-ratings/{films-ratingsId}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex

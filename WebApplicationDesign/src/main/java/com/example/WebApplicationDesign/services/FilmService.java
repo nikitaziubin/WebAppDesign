@@ -25,7 +25,7 @@ public class FilmService {
 
     public Film getFilmById(int id) {
         return filmsRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found by id: " + id));
+                .orElseThrow(() -> new NotFoundException("Film not found by id: " + id));
     }
     public Film createFilm(Film film) {
         if(film.getDateOfPublish() == null) {
@@ -67,6 +67,18 @@ public class FilmService {
             throw new NotFoundException("Film not found by id: " + id);
         }
         filmsRepository.deleteById(id);
+    }
+    public List<Film> getFilmsBySeries(int seriesId) {
+        Series series = seriesService.getSeriesById(seriesId);
+        return filmsRepository.findFilmsBySeriesId(series.getId());
+    }
+    public Film getFilmInSeries(int seriesId, int filmId) {
+        Series series = seriesService.getSeriesById(seriesId);
+        Film film = getFilmById(filmId);
+        if(film.getSeries() == null || film.getSeries().getId() != series.getId()) {
+            throw new NotFoundException("Film with id: " + filmId + " not found in series with id: " + seriesId);
+        }
+        return film;
     }
 }
 
