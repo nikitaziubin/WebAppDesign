@@ -4,11 +4,10 @@ import com.example.WebApplicationDesign.exceptionHandler.NoIdProvidedException;
 import com.example.WebApplicationDesign.exceptionHandler.NotFoundException;
 import com.example.WebApplicationDesign.models.Film;
 import com.example.WebApplicationDesign.models.FilmsRating;
+import com.example.WebApplicationDesign.models.Series;
 import com.example.WebApplicationDesign.models.User;
 import com.example.WebApplicationDesign.repositories.FilmsRatingsRepository;
-import com.example.WebApplicationDesign.repositories.FilmsRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,10 +19,12 @@ import java.util.List;
 @AllArgsConstructor
 public class FilmsRatingsService {
 
+    private final FilmService filmService;
     EntityManager entityManager;
     private final UsersService usersService;
     private FilmsRatingsRepository filmsRatingsRepository;
     private FilmService filmsService;
+    private SeriesService seriesService;
 
     public List<FilmsRating> getFilmsRatings() {
         return filmsRatingsRepository.findAll();
@@ -71,10 +72,14 @@ public class FilmsRatingsService {
         }
         filmsRatingsRepository.deleteById(id);
     }
-    public List<FilmsRating> getFilmsRatingsByFilm(int filmId) {
+    public List<FilmsRating> getFilmsRatingsByFilm(int filmId, int seriesId) {
+        seriesService.getSeriesById(seriesId);
+        filmService.getFilmById(filmId);
         return filmsRatingsRepository.findAllByFilmId(filmId);
     }
-    public FilmsRating getFilmsRatingForFilm(int filmsRatingId) {
+    public FilmsRating getFilmsRatingForFilm(int filmsRatingId, int filmId, int seriesId) {
+        seriesService.getSeriesById(seriesId);
+        filmService.getFilmById(filmId);
         return getFilmsRatingById(filmsRatingId);
     }
 }

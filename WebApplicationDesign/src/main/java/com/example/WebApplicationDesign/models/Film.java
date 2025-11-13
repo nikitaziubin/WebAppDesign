@@ -3,7 +3,6 @@ package com.example.WebApplicationDesign.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -43,7 +42,7 @@ public class Film {
     @NotBlank private String language;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "series_id", nullable = true)
+    @JoinColumn(name = "series_id")
     @JsonIgnoreProperties({"films", "hibernateLazyInitializer", "handler"})
     Series series;
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -73,12 +74,8 @@ public class FilmService {
         return filmsRepository.findFilmsBySeriesId(series.getId());
     }
     public Film getFilmInSeries(int seriesId, int filmId) {
-        Series series = seriesService.getSeriesById(seriesId);
-        Film film = getFilmById(filmId);
-        if(film.getSeries() == null || film.getSeries().getId() != series.getId()) {
-            throw new NotFoundException("Film with id: " + filmId + " not found in series with id: " + seriesId);
-        }
-        return film;
+        seriesService.getSeriesById(seriesId);
+        return getFilmById(filmId);
     }
 }
 

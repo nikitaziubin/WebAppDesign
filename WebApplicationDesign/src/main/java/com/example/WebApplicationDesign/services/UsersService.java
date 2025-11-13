@@ -103,8 +103,4 @@ public class UsersService {
         }
         usersRepository.deleteById(id);
     }
-
-    public List<FilmsRating> getFilmsRatingsByUser(int id) {
-        return filmsRatingsRepository.findAllByUserId(id);
-    }
 }

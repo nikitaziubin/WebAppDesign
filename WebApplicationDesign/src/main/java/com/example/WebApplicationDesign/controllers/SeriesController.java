@@ -1,6 +1,5 @@
 package com.example.WebApplicationDesign.controllers;
 
-import com.example.WebApplicationDesign.models.Film;
 import com.example.WebApplicationDesign.models.Series;
 import com.example.WebApplicationDesign.services.SeriesService;
 import jakarta.validation.Valid;

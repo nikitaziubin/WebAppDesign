@@ -18,12 +18,12 @@ public class FilmsRatingsFilmController {
     FilmsRatingsService filmsRatingsService;
 
     @GetMapping
-    public ResponseEntity<List<FilmsRating>> getFilmsRatingsForFilm(@PathVariable int filmId, @PathVariable String seriesId) {
-        return ResponseEntity.ok(filmsRatingsService.getFilmsRatingsByFilm(filmId));
+    public ResponseEntity<List<FilmsRating>> getFilmsRatingsForFilm(@PathVariable int filmId, @PathVariable int seriesId) {
+        return ResponseEntity.ok(filmsRatingsService.getFilmsRatingsByFilm(filmId, seriesId));
     }
 
     @GetMapping("/{filmsRatingId}")
-    public ResponseEntity<FilmsRating> getFilmsRatingsForFilm(@PathVariable int filmId, @PathVariable int filmsRatingId, @PathVariable String seriesId) {
-        return ResponseEntity.ok(filmsRatingsService.getFilmsRatingForFilm(filmsRatingId));
+    public ResponseEntity<FilmsRating> getFilmsRatingsForFilm(@PathVariable int filmId, @PathVariable int filmsRatingId, @PathVariable int seriesId) {
+        return ResponseEntity.ok(filmsRatingsService.getFilmsRatingForFilm(filmsRatingId, filmId, seriesId));
     }
 }
