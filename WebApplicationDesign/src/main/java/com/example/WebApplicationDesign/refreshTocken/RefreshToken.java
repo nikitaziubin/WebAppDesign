@@ -1,4 +1,4 @@
-package com.example.WebApplicationDesign.RefreshTocken;
+package com.example.WebApplicationDesign.refreshTocken;
 
 import com.example.WebApplicationDesign.models.User;
 import jakarta.persistence.*;

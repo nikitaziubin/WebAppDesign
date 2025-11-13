@@ -2,7 +2,6 @@ package com.example.WebApplicationDesign.services;
 
 import com.example.WebApplicationDesign.exceptionHandler.EmailAlreadyExistException;
 import com.example.WebApplicationDesign.exceptionHandler.NotFoundException;
-import com.example.WebApplicationDesign.models.FilmsRating;
 import com.example.WebApplicationDesign.models.Projections;
 import com.example.WebApplicationDesign.models.User;
 import com.example.WebApplicationDesign.repositories.FilmsRatingsRepository;
@@ -24,7 +23,6 @@ import java.util.Map;
 public class UsersService {
 
     private final UsersRepository usersRepository;
-    private final FilmsRatingsRepository filmsRatingsRepository;
     private final PasswordEncoder passwordEncoder;
 
     public List<User> getUsers() {

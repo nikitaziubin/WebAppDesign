@@ -1,6 +1,6 @@
 package com.example.WebApplicationDesign.models;
 
-import com.example.WebApplicationDesign.RefreshTocken.RefreshToken;
+import com.example.WebApplicationDesign.refreshTocken.RefreshToken;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

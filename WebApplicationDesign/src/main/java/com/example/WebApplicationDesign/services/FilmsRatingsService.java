@@ -2,9 +2,9 @@ package com.example.WebApplicationDesign.services;
 
 import com.example.WebApplicationDesign.exceptionHandler.NoIdProvidedException;
 import com.example.WebApplicationDesign.exceptionHandler.NotFoundException;
+import com.example.WebApplicationDesign.exceptionHandler.OneRatingPerUserException;
 import com.example.WebApplicationDesign.models.Film;
 import com.example.WebApplicationDesign.models.FilmsRating;
-import com.example.WebApplicationDesign.models.Series;
 import com.example.WebApplicationDesign.models.User;
 import com.example.WebApplicationDesign.repositories.FilmsRatingsRepository;
 import jakarta.persistence.EntityManager;
@@ -36,6 +36,11 @@ public class FilmsRatingsService {
     public FilmsRating createFilmsRating(@Valid FilmsRating filmsRating) {
         int userId = filmsRating.getUser().getId();
         User user = usersService.getUserById(userId);
+        boolean createdUserFilmRatingOnThatFilm = user.getFilmsRatings().stream().anyMatch(fr ->
+                fr.getFilm().getId().equals(filmsRating.getFilm().getId()));
+        if(createdUserFilmRatingOnThatFilm) {
+            throw new OneRatingPerUserException("User with id " + userId + " has already rated a film " + filmsRating.getFilm().getId());
+        }
         filmsRating.setUser(user);
         int filmId = filmsRating.getFilm().getId();
         Film film = filmsService.getFilmById(filmId);

@@ -97,4 +97,12 @@ public class ApiExceptionHandler {
                 "message", ex.getMessage()
         ));
     }
+    @ExceptionHandler(OneRatingPerUserException.class)
+    public ResponseEntity<Map<String,Object>> handleOnlyOneRatingPerUserException(OneRatingPerUserException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                "status", 400,
+                "error", "Bad Request",
+                "message", ex.getMessage()
+        ));
+    }
 }

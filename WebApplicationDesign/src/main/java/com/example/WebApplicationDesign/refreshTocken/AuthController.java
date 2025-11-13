@@ -1,4 +1,4 @@
-package com.example.WebApplicationDesign.RefreshTocken;
+package com.example.WebApplicationDesign.refreshTocken;
 
 import com.example.WebApplicationDesign.config.JwtUtil;
 import com.example.WebApplicationDesign.exceptionHandler.InvalidUsernameOrPasswordException;
