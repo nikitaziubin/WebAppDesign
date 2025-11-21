@@ -44,6 +44,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/series/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/series/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/series/{seriesId}/films/{filmId}/films-ratings/{films-ratingsId}").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/api/films-comments/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/films-comments/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+                        .requestMatchers(HttpMethod.PUT, "/api/films-comments/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/films-comments/**").hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex

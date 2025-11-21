@@ -1,13 +1,12 @@
 package com.example.WebApplicationDesign;
 
 import com.example.WebApplicationDesign.config.SecurityConfig;
-import com.example.WebApplicationDesign.models.User;
+import com.example.WebApplicationDesign.Users.User;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
