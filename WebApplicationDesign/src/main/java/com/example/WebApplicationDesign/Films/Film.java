@@ -3,6 +3,7 @@ package com.example.WebApplicationDesign.Films;
 import com.example.WebApplicationDesign.FilmComments.FilmsComment;
 import com.example.WebApplicationDesign.FilmRatings.FilmsRating;
 import com.example.WebApplicationDesign.Series.Series;
+import com.example.WebApplicationDesign.Trailers.Trailer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -58,4 +59,9 @@ public class Film {
     @OneToMany(mappedBy = "film", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"film", "hibernateLazyInitializer", "handler"})
     private List<FilmsComment> filmsComments = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "film", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"film", "hibernateLazyInitializer", "handler"})
+    private List<Trailer> trailers = new ArrayList<>();
 }

@@ -49,6 +49,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/films-comments/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
                         .requestMatchers(HttpMethod.PUT, "/api/films-comments/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/films-comments/**").hasAnyAuthority("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/api/trailers/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/trailers/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/trailers/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/trailers/**").hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex

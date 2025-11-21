@@ -18,8 +18,6 @@ import java.util.List;
 public class UsersController {
 
     private final UsersService usersService;
-    private final JwtUtil jwtUtil;
-    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers(){

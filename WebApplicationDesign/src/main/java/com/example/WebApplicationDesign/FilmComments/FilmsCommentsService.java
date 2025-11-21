@@ -1,13 +1,9 @@
 package com.example.WebApplicationDesign.FilmComments;
 
-import com.example.WebApplicationDesign.ExceptionHandler.NoIdProvidedException;
 import com.example.WebApplicationDesign.ExceptionHandler.NotFoundException;
-import com.example.WebApplicationDesign.Films.Film;
-import com.example.WebApplicationDesign.Films.FilmService;
 import com.example.WebApplicationDesign.Users.User;
 import com.example.WebApplicationDesign.Users.UsersService;
 import com.example.WebApplicationDesign.shared.FilmUserAttachHelper;
-import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

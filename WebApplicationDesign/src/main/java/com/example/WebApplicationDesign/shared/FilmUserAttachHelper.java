@@ -4,7 +4,6 @@ import com.example.WebApplicationDesign.ExceptionHandler.NoIdProvidedException;
 import com.example.WebApplicationDesign.Films.Film;
 import com.example.WebApplicationDesign.Films.FilmService;
 import com.example.WebApplicationDesign.Users.User;
-import com.example.WebApplicationDesign.Users.UsersService;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

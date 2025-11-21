@@ -27,7 +27,6 @@ public class FilmsComment implements FilmUserAssignable {
     private Date dateOfPublish;
     @Column(nullable = false)
     @NotNull private boolean spoiler;
-    @Column(nullable = true)
     @NotNull private String language;
 
     @ManyToOne(fetch = FetchType.LAZY)

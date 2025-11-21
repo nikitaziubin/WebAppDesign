@@ -54,7 +54,7 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
                 "status", 403,
                 "error", "Forbidden",
-                "message", "You do not have permission to access this resource."
+                "message", ex.getMessage()
         ));
     }
     @ExceptionHandler(NotFoundException.class)
