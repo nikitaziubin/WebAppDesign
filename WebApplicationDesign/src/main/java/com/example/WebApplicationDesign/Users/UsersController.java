@@ -1,10 +1,8 @@
 package com.example.WebApplicationDesign.Users;
 
-import com.example.WebApplicationDesign.config.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
@@ -29,15 +27,15 @@ public class UsersController {
         return ResponseEntity.ok(usersService.getUsersNamesOnly());
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<User> getUser(@PathVariable int id){
-//        return ResponseEntity.ok(usersService.getUserById(id));
-//    }
-
-    @GetMapping("/{ids}")
-    public ResponseEntity<List<Object>> getUser(@PathVariable List<Integer> ids){
-        return ResponseEntity.ok(usersService.getUserList(ids));
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable int id){
+        return ResponseEntity.ok(usersService.getUserById(id));
     }
+
+//    @GetMapping("/{ids}")
+//    public ResponseEntity<List<Object>> getUser(@PathVariable List<Integer> ids){
+//        return ResponseEntity.ok(usersService.getUserList(ids));
+//    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createUser(@RequestBody @Valid User user){

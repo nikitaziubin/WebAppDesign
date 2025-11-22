@@ -3,12 +3,14 @@ package com.example.WebApplicationDesign.RefreshTokens;
 import com.example.WebApplicationDesign.config.JwtUtil;
 import com.example.WebApplicationDesign.ExceptionHandler.RefreshTokenException;
 import com.example.WebApplicationDesign.Users.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class TokenService {
     private final RefreshTokenRepository refreshTokenRepository;
@@ -31,17 +33,16 @@ public class TokenService {
         return NewToken;
     }
     public LoginResponseDTO validateAndRefreshAccessToken(String refreshToken){
-        Optional<RefreshToken> refreshTokenObj = refreshTokenRepository.findByToken(refreshToken);
-        if(refreshTokenObj.isPresent()){
-            Instant expires = refreshTokenObj.get().getExpires();
-            if(Instant.now().isBefore(expires)){
-                User user = refreshTokenObj.get().getUser();
-                String newAccessToken = jwtUtil.generateAccessToken(user.getId(), user.getRole().toString());
-                String newRefreshToken = createRefreshToken(user);
-                refreshTokenRepository.deleteById(refreshTokenObj.get().getId());
-                return new LoginResponseDTO(newRefreshToken, newAccessToken);
-            }
+        RefreshToken refreshTokenObj = refreshTokenRepository.findByToken(refreshToken)
+                .orElseThrow(() -> new RefreshTokenException("Refresh token is invalid or expired"));
+        if (Instant.now().isAfter(refreshTokenObj.getExpires())) {
+            throw new RefreshTokenException("Refresh token is expired");
         }
-        throw new RefreshTokenException("Refresh token is invalid or expired");
+        User user = refreshTokenObj.getUser();
+        refreshTokenRepository.deleteById(refreshTokenObj.getId());
+        String newAccessToken = jwtUtil.generateAccessToken(user.getId(), user.getRole().toString());
+        String newRefreshToken = createRefreshToken(user);
+        log.info("Refresh token validated and new tokens generated for user ID: {}", user.getId());
+        return new LoginResponseDTO(newRefreshToken, newAccessToken);
     }
 }

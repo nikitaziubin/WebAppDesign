@@ -33,10 +33,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid User user){
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO request){
         try{
-            User userToLogin = usersService.getUserByEmail(user.getEmail());
-            if (passwordEncoder.matches(user.getPassword(), userToLogin.getPassword())) {
+            User userToLogin = usersService.getUserByEmail(request.email());
+            if (passwordEncoder.matches(request.password(), userToLogin.getPassword())) {
                 String role = userToLogin.getRole().toString();
                 String accessToken = jwtUtil.generateAccessToken(userToLogin.getId(), role);
                 String refreshToken = tokenService.createRefreshToken(userToLogin);

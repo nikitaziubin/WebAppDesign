@@ -29,6 +29,8 @@ public class UsersService {
         return usersRepository.findAllByIdBetween(0, 10);
     }
 
+
+
     public List<Object> getUserList(List<Integer> ids){
         List <Object> results = new ArrayList<>();
         for(Integer id : ids){

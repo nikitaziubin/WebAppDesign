@@ -20,10 +20,8 @@ import java.util.List;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final HandlerExceptionResolver handlerExceptionResolver;
 
-    public JwtFilter(JwtUtil jwtUtil, @Qualifier("handlerExceptionResolver") HandlerExceptionResolver handlerExceptionResolver) {
-        this.handlerExceptionResolver = handlerExceptionResolver;
+    public JwtFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
@@ -47,8 +45,10 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (Exception e) {
-                handlerExceptionResolver.resolveException(request, response, null, e);
-                return;
+                SecurityContextHolder.clearContext();
+
+//                handlerExceptionResolver.resolveException(request, response, null, e);
+//                return;
                 //System.out.println("Invalid JWT: " + e.getMessage());
             }
         }

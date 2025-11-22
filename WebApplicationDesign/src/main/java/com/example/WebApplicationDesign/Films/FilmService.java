@@ -18,8 +18,8 @@ public class FilmService {
     private final SeriesService seriesService;
 
     public List<Film> getAllFilms() {
-        //return filmsRepository.findAll();
-        return filmsRepository.findFilmsBySeriesIsNull();
+        return filmsRepository.findAll();
+        //return filmsRepository.findFilmsBySeriesIsNull();
     }
 
     public Film getFilmById(int id) {
