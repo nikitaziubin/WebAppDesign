@@ -35,7 +35,7 @@ public class Series {
     @NotNull private Integer numberOfEpisodes;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "series", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "series", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"series", "hibernateLazyInitializer", "handler"})
     private List<Film> films = new ArrayList<>();
 }

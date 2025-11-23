@@ -17,10 +17,10 @@ public class FilmUserAttachHelper {
     private final FilmService filmsService;
 
     public void attachFilmAndUser(FilmUserAssignable target, Film newFilm, User newUser){
-        if(newFilm == null || target.getFilm().getId() == null){
+        if(newFilm == null || newFilm.getId() == null){
             throw new NoIdProvidedException("Film id not found");
         }
-        if(newUser == null || target.getUser().getId() == null){
+        if(newUser == null || newUser.getId() == null){
             throw new NoIdProvidedException("User id not found");
         }
         Film film = entityManager.getReference(Film.class, newFilm.getId());
@@ -37,6 +37,7 @@ public class FilmUserAttachHelper {
         if (film == null || film.getId() == null) {
             throw new NoIdProvidedException("Film id not found");
         }
+
         target.setUser(user);
         target.setFilm(filmsService.getFilmById(film.getId()));
         if(target.getDateOfPublish() == null) {

@@ -31,12 +31,12 @@ public class FilmsComment implements FilmUserAssignable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "film_id", nullable = false)
-    @JsonIgnoreProperties({"filmsComments", "hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({"filmsComments", "filmsRatings", "trailers", "hibernateLazyInitializer", "handler"})
     @NotNull private Film film;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties({"filmsComments", "hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({"filmsComments", "filmsRatings", "trailers", "hibernateLazyInitializer", "handler"})
     @NotNull private User user;
 
 }

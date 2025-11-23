@@ -37,7 +37,7 @@ public class FilmsRatingsService {
         boolean createdUserFilmRatingOnThatFilm = user.getFilmsRatings().stream().anyMatch(fr ->
                 fr.getFilm().getId().equals(filmsRating.getFilm().getId()));
         if(createdUserFilmRatingOnThatFilm) {
-            throw new OneRatingPerUserException("User with id " + userId + " has already rated a film " + filmsRating.getFilm().getId());
+            throw new OneRatingPerUserException("User " + user.getName() + " has already rated this film ");
         }
         filmUserAttachHelper.setFilmAndUser(filmsRating, filmsRating.getFilm(), user);
         return filmsRatingsRepository.save(filmsRating);
