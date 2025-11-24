@@ -65,6 +65,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/trailers/**").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/trailers/**").hasAnyAuthority("ADMIN")
 
+                        .requestMatchers(HttpMethod.GET, "/api/payments/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+                        .requestMatchers(HttpMethod.POST, "/api/payments/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex

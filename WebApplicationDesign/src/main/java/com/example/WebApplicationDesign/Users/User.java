@@ -2,6 +2,7 @@ package com.example.WebApplicationDesign.Users;
 
 import com.example.WebApplicationDesign.FilmComments.FilmsComment;
 import com.example.WebApplicationDesign.FilmRatings.FilmsRating;
+import com.example.WebApplicationDesign.Payments.Payment;
 import com.example.WebApplicationDesign.RefreshTokens.RefreshToken;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -64,4 +65,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<RefreshToken> refreshTokens = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"user", "hibernateLazyInitializer", "handler"})
+    private List<Payment> payments = new ArrayList<>();
 }
