@@ -2,6 +2,7 @@ package com.example.WebApplicationDesign.Films;
 
 import com.example.WebApplicationDesign.FilmComments.FilmsComment;
 import com.example.WebApplicationDesign.FilmRatings.FilmsRating;
+import com.example.WebApplicationDesign.ProductionCompanies.ProductionCompanies;
 import com.example.WebApplicationDesign.Series.Series;
 import com.example.WebApplicationDesign.Trailers.Trailer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -49,6 +50,11 @@ public class Film {
     @JoinColumn(name = "series_id")
     @JsonIgnoreProperties({"films", "hibernateLazyInitializer", "handler"})
     Series series;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "production_company_id")
+    @JsonIgnoreProperties({"films", "hibernateLazyInitializer", "handler"})
+    ProductionCompanies productionCompany;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "film", orphanRemoval = true, fetch = FetchType.LAZY)

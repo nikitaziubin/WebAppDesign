@@ -1,6 +1,8 @@
 package com.example.WebApplicationDesign.Films;
 
 import com.example.WebApplicationDesign.ExceptionHandler.NotFoundException;
+import com.example.WebApplicationDesign.ProductionCompanies.ProductionCompanies;
+import com.example.WebApplicationDesign.ProductionCompanies.ProductionCompaniesService;
 import com.example.WebApplicationDesign.Series.Series;
 import com.example.WebApplicationDesign.Series.SeriesService;
 import jakarta.persistence.EntityManager;
@@ -16,6 +18,7 @@ public class FilmService {
     EntityManager entityManager;
     private final FilmsRepository filmsRepository;
     private final SeriesService seriesService;
+    private final ProductionCompaniesService productionCompaniesService;
 
     public List<Film> getAllFilms() {
         return filmsRepository.findAll();
@@ -36,6 +39,14 @@ public class FilmService {
         }
         else {
             film.setSeries(null);
+        }
+        if(film.getProductionCompany() != null && film.getProductionCompany().getId() != null){
+            int id = film.getProductionCompany().getId();
+            ProductionCompanies productionCompany = productionCompaniesService.getProductionCompaniesById(id);
+            film.setProductionCompany(productionCompany);
+        }
+        else {
+            film.setProductionCompany(null);
         }
         return filmsRepository.save(film);
     }
@@ -58,6 +69,13 @@ public class FilmService {
         }
         else{
             filmToUpdate.setSeries(null);
+        }
+        if(film.getProductionCompany() != null && film.getProductionCompany().getId() != null){
+            ProductionCompanies productionCompany = entityManager.getReference(ProductionCompanies.class, film.getProductionCompany().getId());
+            filmToUpdate.setProductionCompany(productionCompany);
+        }
+        else {
+            filmToUpdate.setProductionCompany(null);
         }
         return filmsRepository.save(filmToUpdate);
     }
