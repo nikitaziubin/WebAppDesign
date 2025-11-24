@@ -2,6 +2,7 @@ package com.example.WebApplicationDesign.Films;
 
 import com.example.WebApplicationDesign.FilmComments.FilmsComment;
 import com.example.WebApplicationDesign.FilmRatings.FilmsRating;
+import com.example.WebApplicationDesign.Genres.Genre;
 import com.example.WebApplicationDesign.ProductionCompanies.ProductionCompanies;
 import com.example.WebApplicationDesign.Series.Series;
 import com.example.WebApplicationDesign.Trailers.Trailer;
@@ -70,4 +71,18 @@ public class Film {
     @OneToMany(mappedBy = "film", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"film", "hibernateLazyInitializer", "handler"})
     private List<Trailer> trailers = new ArrayList<>();
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "film_genre",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"),
+            uniqueConstraints = @UniqueConstraint(
+                    name = "unique_film_genre",
+                    columnNames = {"film_id", "genre_id"}
+            )
+    )
+    @JsonIgnoreProperties({"films", "hibernateLazyInitializer", "handler"})
+    private List<Genre> genres = new ArrayList<>();
 }

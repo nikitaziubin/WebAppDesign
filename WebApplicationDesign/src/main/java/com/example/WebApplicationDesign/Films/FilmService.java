@@ -1,6 +1,7 @@
 package com.example.WebApplicationDesign.Films;
 
 import com.example.WebApplicationDesign.ExceptionHandler.NotFoundException;
+import com.example.WebApplicationDesign.Genres.Genre;
 import com.example.WebApplicationDesign.ProductionCompanies.ProductionCompanies;
 import com.example.WebApplicationDesign.ProductionCompanies.ProductionCompaniesService;
 import com.example.WebApplicationDesign.Series.Series;
@@ -9,8 +10,11 @@ import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -48,6 +52,7 @@ public class FilmService {
         else {
             film.setProductionCompany(null);
         }
+        handleGenres(film, film);
         return filmsRepository.save(film);
     }
     public Film updateFilm(int id, Film film) {
@@ -77,6 +82,8 @@ public class FilmService {
         else {
             filmToUpdate.setProductionCompany(null);
         }
+        handleGenres(film, filmToUpdate);
+
         return filmsRepository.save(filmToUpdate);
     }
     public void deleteFilm(int id) {
@@ -92,6 +99,21 @@ public class FilmService {
     public Film getFilmInSeries(int seriesId, int filmId) {
         seriesService.getSeriesById(seriesId);
         return getFilmById(filmId);
+    }
+
+    private void handleGenres(Film film, Film sourceFilm) {
+        if (film.getGenres() != null && !film.getGenres().isEmpty()) {
+            var distinctGenres  = film.getGenres().stream()
+                            .filter(g -> g.getId() != null)
+                                    .collect(Collectors.toMap(
+                                            Genre::getId, Function.identity(), (g1, g2) -> g1))
+                            .values().stream()
+                    .map(genre -> entityManager.getReference(Genre.class, genre.getId()))
+                    .toList();
+            sourceFilm.setGenres(new ArrayList<>(distinctGenres));
+        } else {
+            sourceFilm.setGenres(null);
+        }
     }
 }
 
