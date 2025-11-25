@@ -99,4 +99,7 @@ public class UsersService {
         }
         usersRepository.deleteById(id);
     }
+    public User saveUser(User user) {
+        return usersRepository.save(user);
+    }
 }

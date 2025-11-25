@@ -4,6 +4,7 @@ import com.example.WebApplicationDesign.FilmComments.FilmsComment;
 import com.example.WebApplicationDesign.FilmRatings.FilmsRating;
 import com.example.WebApplicationDesign.Payments.Payment;
 import com.example.WebApplicationDesign.RefreshTokens.RefreshToken;
+import com.example.WebApplicationDesign.UserProfiles.UserProfile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -47,7 +48,7 @@ public class User {
     @Column(nullable = false, unique = true)
     @Email private String email;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private USER_ROLES role;
 
@@ -70,4 +71,9 @@ public class User {
     @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"user", "hibernateLazyInitializer", "handler"})
     private List<Payment> payments = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "id", nullable = true)
+    @JsonIgnoreProperties({"user"})
+    private UserProfile userProfile;
 }

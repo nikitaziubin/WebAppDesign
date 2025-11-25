@@ -68,6 +68,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/payments/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
                         .requestMatchers(HttpMethod.POST, "/api/payments/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
 
+                        .requestMatchers(HttpMethod.GET, "/api/user-profiles/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+                        .requestMatchers(HttpMethod.GET, "/api/user-profiles/my-profile/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+                        .requestMatchers(HttpMethod.POST, "/api/user-profiles/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+                        .requestMatchers(HttpMethod.PUT, "/api/user-profiles/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/user-profiles/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex

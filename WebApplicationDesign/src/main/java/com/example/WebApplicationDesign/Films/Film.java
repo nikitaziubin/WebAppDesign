@@ -11,10 +11,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.URL;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,36 +31,44 @@ public class Film {
     private Integer id;
 
     @Column(nullable = false)
-    @NotBlank private String name;
+    @NotBlank(message = "Name cannot be blank")
+    private String name;
 
     @Column(nullable = false)
-    @NotBlank private String quality;
+    @NotBlank(message = "Quality cannot be blank")
+    private String quality;
 
     @Column(nullable = false)
-    @NotBlank private String duration;
+    @NotBlank(message = "Duration cannot be blank")
+    private String duration;
 
-    @NotBlank private String previewPhoto;
+    @NotBlank(message = "Preview photo must be a valid URL")
+    private String previewPhoto;
 
-    @NotBlank private String ageLimit;
+    @NotBlank(message = "Age limit cannot be blank")
+    private String ageLimit;
 
     @Column(nullable = false)
     private Date dateOfPublish;
 
     @Column(nullable = false)
-    @NotBlank private String budget;
+    @Positive(message = "Budget must be positive")
+    @NotNull private BigDecimal budget;
 
     @Column(nullable = false)
-    @NotBlank private String language;
+    @NotBlank(message = "Language cannot be blank")
+    private String language;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "series_id")
     @JsonIgnoreProperties({"films", "hibernateLazyInitializer", "handler"})
-    @NotNull Series series;
+    Series series;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "production_company_id")
     @JsonIgnoreProperties({"films", "hibernateLazyInitializer", "handler"})
-    @NotNull ProductionCompanies productionCompany;
+    @NotNull(message = "Production company must be specified")
+    ProductionCompanies productionCompany;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "film", orphanRemoval = true, fetch = FetchType.LAZY)
@@ -86,7 +97,7 @@ public class Film {
             )
     )
     @JsonIgnoreProperties({"films", "hibernateLazyInitializer", "handler"})
-    @NotNull
+    @NotNull(message = "At least one genre must be specified")
     private List<Genre> genres = new ArrayList<>();
 
     @OneToMany(mappedBy = "film", orphanRemoval = true, fetch = FetchType.LAZY)

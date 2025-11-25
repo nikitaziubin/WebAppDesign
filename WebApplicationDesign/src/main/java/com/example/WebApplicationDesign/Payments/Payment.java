@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -33,7 +32,7 @@ public class Payment implements FilmUserAssignable {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "film_id", nullable = true)
+    @JoinColumn(name = "film_id", nullable = false)
     @JsonIgnoreProperties({"payments", "series", "productionCompany", "genres", "filmsComments", "filmsRatings", "trailers", "hibernateLazyInitializer", "handler"})
     private Film film;
 
