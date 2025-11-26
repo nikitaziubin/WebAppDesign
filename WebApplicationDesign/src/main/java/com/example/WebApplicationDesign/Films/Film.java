@@ -1,5 +1,6 @@
 package com.example.WebApplicationDesign.Films;
 
+import com.example.WebApplicationDesign.Descriptions.WikiDescription;
 import com.example.WebApplicationDesign.FilmComments.FilmsComment;
 import com.example.WebApplicationDesign.FilmRatings.FilmsRating;
 import com.example.WebApplicationDesign.Genres.Genre;
@@ -15,7 +16,6 @@ import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -96,11 +96,19 @@ public class Film {
                     columnNames = {"film_id", "genre_id"}
             )
     )
+    @ToString.Exclude
     @JsonIgnoreProperties({"films", "hibernateLazyInitializer", "handler"})
     @NotNull(message = "At least one genre must be specified")
     private List<Genre> genres = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "film", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"film", "hibernateLazyInitializer", "handler"})
     private List<Payment> payments = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "wiki_description_id", referencedColumnName = "id", nullable = true)
+    @JsonIgnoreProperties({"film", "hibernateLazyInitializer", "handler"})
+    private WikiDescription description;
 }

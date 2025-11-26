@@ -74,6 +74,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/user-profiles/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
                         .requestMatchers(HttpMethod.DELETE, "/api/user-profiles/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
 
+                        .requestMatchers(HttpMethod.GET, "/api/wiki-descriptions/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/wiki-descriptions/**").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex
