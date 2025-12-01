@@ -72,6 +72,7 @@ public class User {
     @JsonIgnoreProperties({"user", "hibernateLazyInitializer", "handler"})
     private List<Payment> payments = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_profile_id", referencedColumnName = "id", nullable = true)
     @JsonIgnoreProperties({"user"})

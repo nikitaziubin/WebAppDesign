@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import java.util.List;
 
 @Configuration
+@EnableAsync
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter,
@@ -66,7 +68,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/trailers/**").hasAnyAuthority("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/api/payments/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+                        .requestMatchers(HttpMethod.POST, "/api/payments/webhook").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/payments/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
+                        .requestMatchers(HttpMethod.POST, "/api/payments/create-payment-intent").hasAnyAuthority("ADMIN", "LOGGED_IN")
 
                         .requestMatchers(HttpMethod.GET, "/api/user-profiles/**").hasAnyAuthority("ADMIN", "LOGGED_IN")
                         .requestMatchers(HttpMethod.GET, "/api/user-profiles/my-profile/**").hasAnyAuthority("ADMIN", "LOGGED_IN")

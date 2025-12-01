@@ -66,6 +66,7 @@ public class FilmService {
                 film.getDateOfPublish() == null ? new Date() : film.getDateOfPublish());
         filmToUpdate.setBudget(film.getBudget());
         filmToUpdate.setLanguage(film.getLanguage());
+        filmToUpdate.setFilmPrice(film.getFilmPrice());
 
         if(film.getSeries() != null && film.getSeries().getId() != null){
             seriesService.getSeriesById(film.getSeries().getId());

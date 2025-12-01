@@ -47,6 +47,9 @@ public class UsersService {
         return results;
     }
 
+    public User getUserByIdInternal(int id) {
+        return findById(id);
+    }
     private User findById(int id){
         return usersRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found by id: " + id));

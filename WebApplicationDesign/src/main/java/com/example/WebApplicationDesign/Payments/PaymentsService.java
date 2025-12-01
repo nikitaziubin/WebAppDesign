@@ -31,4 +31,7 @@ public class PaymentsService {
         filmUserAttachHelper.setFilmAndUser(payment, payment.getFilm(), user);
         return paymentsRepository.save(payment);
     }
+    public void savePayment(Payment payment) {
+        paymentsRepository.save(payment);
+    }
 }

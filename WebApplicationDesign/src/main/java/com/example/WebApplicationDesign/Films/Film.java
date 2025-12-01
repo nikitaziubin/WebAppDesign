@@ -58,6 +58,9 @@ public class Film {
     @Column(nullable = false)
     @NotBlank(message = "Language cannot be blank")
     private String language;
+    @Column(nullable = false)
+    //@Positive(message = "Film price for rent must be positive")
+    private double filmPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "series_id")
